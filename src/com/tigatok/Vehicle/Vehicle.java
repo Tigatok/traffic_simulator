@@ -9,19 +9,10 @@ import java.util.ArrayList;
  */
 public class Vehicle extends TrafficEntity implements VehicleState{
   private State state;
-  private static ArrayList<Vehicle> vehicleArrayList;
 
   public Vehicle(){
     this.entityID = this.generateRandomEntityId();
     setState(State.STOPPED);
-    vehicleArrayList.add(this);
-  }
-
-  public static ArrayList<Vehicle> getVehicleArrayList(){
-    if(vehicleArrayList == null){
-      vehicleArrayList = new ArrayList<>();
-    }
-    return vehicleArrayList;
   }
 
   @Override
@@ -37,5 +28,9 @@ public class Vehicle extends TrafficEntity implements VehicleState{
   @Override
   protected String generateRandomEntityId() {
     return "VEH" + super.generateRandomEntityId();
+  }
+
+  public void moveVehicle(){
+    System.out.println(this.getEntityID() + " has moved across the intersection");
   }
 }

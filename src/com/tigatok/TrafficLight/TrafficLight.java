@@ -1,6 +1,9 @@
 package com.tigatok.TrafficLight;
 
 import com.tigatok.TrafficEntity;
+import com.tigatok.Vehicle.Vehicle;
+
+import java.util.ArrayList;
 
 /**
  * Created by tmarshall on 07/01/17.
@@ -8,10 +11,12 @@ import com.tigatok.TrafficEntity;
 public class TrafficLight extends TrafficEntity implements TrafficLightState{
   private LightState lightState;
   private String trafficLightId;
+  private ArrayList<Vehicle> vehicles;
 
   public TrafficLight(){
     setState(LightState.GREEN);
     this.trafficLightId = generateRandomEntityId();
+    this.vehicles = new ArrayList<>();
   }
 
   @Override
@@ -27,5 +32,13 @@ public class TrafficLight extends TrafficEntity implements TrafficLightState{
   @Override
   protected String generateRandomEntityId() {
     return "LIG" + super.generateRandomEntityId();
+  }
+
+  public ArrayList<Vehicle> getVehicles() {
+    return vehicles;
+  }
+
+  public void setVehicles(ArrayList<Vehicle> vehicles) {
+    this.vehicles = vehicles;
   }
 }

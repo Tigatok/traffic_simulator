@@ -15,15 +15,19 @@ public class Main {
       new VehicleTest();
     }
 
-    Vehicle vehicleX = new Vehicle();
-    Vehicle vehicleY = new Vehicle();
-
     TrafficLight lightX = new TrafficLight();
     TrafficLight lightY = new TrafficLight();
 
     Intersection intersection = new Intersection(lightX, lightY, "Pandosy");
 
-    intersection.addVehicle(vehicleX);
+    intersection.addVehicle(new Vehicle());
+    intersection.addVehicle(new Vehicle());
+    intersection.addVehicle(new Vehicle());
+    intersection.addVehicle(new Vehicle());
+    intersection.addVehicle(new Vehicle());
+    intersection.addVehicle(new Vehicle());
+    intersection.addVehicle(new Vehicle());
+    intersection.addVehicle(new Vehicle());
     intersection.processIntersection();
   }
 }

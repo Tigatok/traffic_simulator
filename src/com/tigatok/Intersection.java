@@ -4,9 +4,7 @@ import com.tigatok.TrafficLight.TrafficLight;
 import com.tigatok.TrafficLight.TrafficLightState;
 import com.tigatok.Vehicle.Vehicle;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by tmarshall on 07/01/17.
@@ -31,7 +29,9 @@ public class Intersection extends TrafficEntity {
 
     this.lightX = lightX;
     this.lightY = lightY;
+    this.lightY.setState(TrafficLightState.LightState.RED);
 
+    this.vehicles = new ArrayList<>();
     this.trafficLightVehicleHashMap = new HashMap<>();
   }
 
@@ -54,45 +54,65 @@ public class Intersection extends TrafficEntity {
     if(!this.trafficLightVehicleHashMap.isEmpty()){
 
       //Scenarios:
-      //If there are vehicles at both
       //If there are vehicles at one
+      //If there are vehicles at both
 
       //If there are vehicles at lightX.
       if(this.trafficLightVehicleHashMap.get(lightX) != null){
-        System.out.println("lightX has a vehicle");
+        System.out.println("lightX has " + this.trafficLightVehicleHashMap.get(lightX).size() + " vehicles");
+        System.out.println("LightX State: " + lightX.getState()+"\n" +
+          "LightY State: " + lightY.getState());
 
         lightX.setState(TrafficLightState.LightState.GREEN);
         lightY.setState(TrafficLightState.LightState.RED);
-        return;
+
+        Iterator i = trafficLightVehicleHashMap.get(lightX).iterator();
+        while(i.hasNext()){
+          Vehicle v = (Vehicle)i.next();
+          v.moveVehicle();
+          i.remove();
+        }
       }
 
       //If there are vehicles waiting at lightY.
       if(this.trafficLightVehicleHashMap.get(lightY) != null){
-        System.out.println("lightY has a vehicle");
+        System.out.println("lightY has " + this.trafficLightVehicleHashMap.get(lightY).size() + " vehicles");
 
         lightY.setState(TrafficLightState.LightState.GREEN);
         lightX.setState(TrafficLightState.LightState.RED);
 
-
-        return;
+        Iterator i = trafficLightVehicleHashMap.get(lightY).iterator();
+        while(i.hasNext()){
+          Vehicle v = (Vehicle)i.next();
+          v.moveVehicle();
+          i.remove();
+        }
       }
+
+      System.out.println("LightX State: " + lightX.getState()+"\n" +
+        "LightY State: " + lightY.getState());
+      System.out.println("Vehicles Waiting: " + vehicles.size());
     }
   }
 
   /**
-   * @// TODO: 08/01/17 make random
+   * @TODO: 08/01/17 make random
    * Adds a vehicle to a random intersection.
    * @param vehicle
    */
   public void addVehicle(Vehicle vehicle){
     TrafficLight trafficLight;
+
+    //Add a vehicle to a random light.
     int random = new Random().nextInt(1 +1);
     if(random == 0){
       trafficLight = this.lightX;
     } else {
       trafficLight = this.lightY;
     }
-    this.trafficLightVehicleHashMap.put(trafficLight, vehicles);
+
+    trafficLight.getVehicles().add(vehicle);
+    this.trafficLightVehicleHashMap.put(trafficLight, trafficLight.getVehicles());
   }
 
   /**
